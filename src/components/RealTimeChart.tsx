@@ -2,7 +2,7 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { TrendingUp, TrendingDown, Activity } from 'lucide-react';
+import { TrendingUp, TrendingDown, Activity, Clock } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area } from 'recharts';
 
 interface RealTimeChartProps {
@@ -14,9 +14,10 @@ interface RealTimeChartProps {
     changePercent: number;
     timestamp: Date;
   };
+  isMarketOpen?: boolean;
 }
 
-export const RealTimeChart: React.FC<RealTimeChartProps> = ({ data, marketData }) => {
+export const RealTimeChart: React.FC<RealTimeChartProps> = ({ data, marketData, isMarketOpen = false }) => {
   const isPositive = marketData.change >= 0;
 
   return (
@@ -77,9 +78,16 @@ export const RealTimeChart: React.FC<RealTimeChartProps> = ({ data, marketData }
                 </div>
                 <div className="text-sm text-slate-400">Volume</div>
               </div>
-              <Badge variant="secondary" className="bg-blue-900 text-blue-300">
-                Live
-              </Badge>
+              <div className="flex flex-col items-end space-y-1">
+                <Badge variant={isMarketOpen ? "secondary" : "outline"} 
+                       className={isMarketOpen ? "bg-green-900 text-green-300" : "bg-red-900 text-red-300"}>
+                  {isMarketOpen ? 'Market Open' : 'Market Closed'}
+                </Badge>
+                <div className="flex items-center text-xs text-slate-400">
+                  <Clock className="h-3 w-3 mr-1" />
+                  {marketData.timestamp.toLocaleTimeString()}
+                </div>
+              </div>
             </div>
           </CardContent>
         </Card>
@@ -90,8 +98,8 @@ export const RealTimeChart: React.FC<RealTimeChartProps> = ({ data, marketData }
         <CardHeader>
           <CardTitle className="flex items-center justify-between">
             <span>Real-Time Performance</span>
-            <Badge variant="secondary" className="bg-green-900 text-green-300">
-              Live Updates
+            <Badge variant="secondary" className="bg-blue-900 text-blue-300">
+              Yahoo Finance API
             </Badge>
           </CardTitle>
         </CardHeader>

@@ -73,7 +73,7 @@ interface Position {
 }
 
 const TradingDashboard = () => {
-  const { marketData, performanceData, accountValue, addPerformancePoint } = useRealTimeData();
+  const { marketData, performanceData, accountValue, isMarketOpen, addPerformancePoint } = useRealTimeData();
   
   const [config, setConfig] = useState<TradingConfig>({
     brokerPlugin: 'td_ameritrade',
@@ -203,6 +203,10 @@ const TradingDashboard = () => {
             <Badge variant={config.paperTrading ? "secondary" : "destructive"} className="px-3 py-1">
               {config.paperTrading ? 'Paper Trading' : 'Live Trading'}
             </Badge>
+            <Badge variant={isMarketOpen ? "secondary" : "outline"} 
+                   className={isMarketOpen ? "bg-green-900 text-green-300" : "bg-red-900 text-red-300"}>
+              {isMarketOpen ? 'Market Open' : 'Market Closed'}
+            </Badge>
             <div className="text-right">
               <div className="text-2xl font-bold text-green-400">${accountValue.toLocaleString()}</div>
               <div className="text-sm text-slate-400">Account Value</div>
@@ -247,7 +251,7 @@ const TradingDashboard = () => {
             </Card>
 
             {/* Real-time Market Data and Charts */}
-            <RealTimeChart data={performanceData} marketData={marketData} />
+            <RealTimeChart data={performanceData} marketData={marketData} isMarketOpen={isMarketOpen} />
 
             {/* Market Overview */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

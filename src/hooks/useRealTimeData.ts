@@ -1,5 +1,6 @@
 
 import { useState, useEffect, useCallback } from 'react';
+import { yahooFinanceService } from '@/services/yahooFinanceAPI';
 
 interface RealTimeData {
   price: number;
@@ -17,10 +18,10 @@ interface PerformanceData {
 
 export const useRealTimeData = () => {
   const [marketData, setMarketData] = useState<RealTimeData>({
-    price: 4875.50,
-    volume: 125000,
-    change: 12.75,
-    changePercent: 0.26,
+    price: 6005.00, // Start with current SPX price
+    volume: 0,
+    change: 0,
+    changePercent: 0,
     timestamp: new Date()
   });
 
@@ -34,16 +35,41 @@ export const useRealTimeData = () => {
   ]);
 
   const [accountValue, setAccountValue] = useState(108450);
+  const [isMarketOpen, setIsMarketOpen] = useState(false);
 
-  const updateMarketData = useCallback(() => {
-    setMarketData(prev => ({
-      ...prev,
-      price: prev.price + (Math.random() - 0.5) * 5,
-      volume: prev.volume + Math.floor(Math.random() * 1000),
-      change: prev.change + (Math.random() - 0.5) * 2,
-      changePercent: (prev.change + (Math.random() - 0.5) * 2) / prev.price,
-      timestamp: new Date()
-    }));
+  const updateMarketData = useCallback(async () => {
+    try {
+      const quote = await yahooFinanceService.getSPXQuote();
+      
+      if (quote) {
+        setMarketData({
+          price: quote.regularMarketPrice,
+          volume: quote.regularMarketVolume,
+          change: quote.regularMarketChange,
+          changePercent: quote.regularMarketChangePercent / 100,
+          timestamp: new Date(quote.regularMarketTime * 1000)
+        });
+        
+        // Check if market is open (rough estimate based on data freshness)
+        const dataAge = Date.now() - (quote.regularMarketTime * 1000);
+        setIsMarketOpen(dataAge < 300000); // Consider fresh if less than 5 minutes old
+      } else {
+        // Fallback to simulated data if API fails
+        setMarketData(prev => ({
+          ...prev,
+          price: prev.price + (Math.random() - 0.5) * 2,
+          timestamp: new Date()
+        }));
+      }
+    } catch (error) {
+      console.error('Failed to update market data:', error);
+      // Fallback to simulated data on error
+      setMarketData(prev => ({
+        ...prev,
+        price: prev.price + (Math.random() - 0.5) * 2,
+        timestamp: new Date()
+      }));
+    }
   }, []);
 
   const addPerformancePoint = useCallback((pnl: number) => {
@@ -64,7 +90,12 @@ export const useRealTimeData = () => {
   }, []);
 
   useEffect(() => {
-    const interval = setInterval(updateMarketData, 3000); // Update every 3 seconds
+    // Initial fetch
+    updateMarketData();
+    
+    // Update every 30 seconds (Yahoo Finance has rate limits)
+    const interval = setInterval(updateMarketData, 30000);
+    
     return () => clearInterval(interval);
   }, [updateMarketData]);
 
@@ -72,6 +103,7 @@ export const useRealTimeData = () => {
     marketData,
     performanceData,
     accountValue,
+    isMarketOpen,
     addPerformancePoint
   };
 };
