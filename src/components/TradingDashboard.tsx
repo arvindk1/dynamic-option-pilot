@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -25,7 +24,10 @@ import {
   Clock,
   Target
 } from 'lucide-react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area } from 'recharts';
+import { useRealTimeData } from '@/hooks/useRealTimeData';
+import { RealTimeChart } from '@/components/RealTimeChart';
+import { TradeManager } from '@/components/TradeManager';
+import { SpreadExecutor } from '@/components/SpreadExecutor';
 
 interface TradingConfig {
   brokerPlugin: string;
@@ -71,6 +73,8 @@ interface Position {
 }
 
 const TradingDashboard = () => {
+  const { marketData, performanceData, accountValue, addPerformancePoint } = useRealTimeData();
+  
   const [config, setConfig] = useState<TradingConfig>({
     brokerPlugin: 'td_ameritrade',
     paperTrading: true,
@@ -92,15 +96,6 @@ const TradingDashboard = () => {
   const [volatilityRegime, setVolatilityRegime] = useState<'HIGH_VOL' | 'NORMAL_VOL' | 'LOW_VOL'>('NORMAL_VOL');
 
   // Mock data
-  const performanceData = [
-    { date: '2024-01', pnl: 2500, cumulative: 2500 },
-    { date: '2024-02', pnl: 1800, cumulative: 4300 },
-    { date: '2024-03', pnl: -800, cumulative: 3500 },
-    { date: '2024-04', pnl: 3200, cumulative: 6700 },
-    { date: '2024-05', pnl: 2100, cumulative: 8800 },
-    { date: '2024-06', pnl: 1600, cumulative: 10400 }
-  ];
-
   const spreadCandidates: SpreadCandidate[] = [
     {
       id: '1',
@@ -209,7 +204,7 @@ const TradingDashboard = () => {
               {config.paperTrading ? 'Paper Trading' : 'Live Trading'}
             </Badge>
             <div className="text-right">
-              <div className="text-2xl font-bold text-green-400">$108,450</div>
+              <div className="text-2xl font-bold text-green-400">${accountValue.toLocaleString()}</div>
               <div className="text-sm text-slate-400">Account Value</div>
             </div>
           </div>
@@ -250,6 +245,9 @@ const TradingDashboard = () => {
                 </div>
               </CardContent>
             </Card>
+
+            {/* Real-time Market Data and Charts */}
+            <RealTimeChart data={performanceData} marketData={marketData} />
 
             {/* Market Overview */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -329,38 +327,6 @@ const TradingDashboard = () => {
                 </CardContent>
               </Card>
             </div>
-
-            {/* Performance Chart */}
-            <Card className="bg-slate-800 border-slate-700">
-              <CardHeader>
-                <CardTitle>Performance History</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ResponsiveContainer width="100%" height={300}>
-                  <AreaChart data={performanceData}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
-                    <XAxis dataKey="date" stroke="#9CA3AF" />
-                    <YAxis stroke="#9CA3AF" />
-                    <Tooltip 
-                      contentStyle={{ backgroundColor: '#1F2937', border: '1px solid #374151' }}
-                      labelStyle={{ color: '#E5E7EB' }}
-                    />
-                    <Area 
-                      type="monotone" 
-                      dataKey="cumulative" 
-                      stroke="#3B82F6" 
-                      fill="url(#gradient)" 
-                    />
-                    <defs>
-                      <linearGradient id="gradient" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="#3B82F6" stopOpacity={0.3}/>
-                        <stop offset="95%" stopColor="#3B82F6" stopOpacity={0}/>
-                      </linearGradient>
-                    </defs>
-                  </AreaChart>
-                </ResponsiveContainer>
-              </CardContent>
-            </Card>
           </TabsContent>
 
           {/* Signals Tab */}
@@ -445,111 +411,15 @@ const TradingDashboard = () => {
 
           {/* Trades Tab */}
           <TabsContent value="trades" className="space-y-6">
-            <Card className="bg-slate-800 border-slate-700">
-              <CardHeader>
-                <CardTitle>Spread Candidates</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {spreadCandidates.map((spread) => (
-                    <div key={spread.id} className="bg-slate-900 p-4 rounded-lg border border-slate-600">
-                      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-4 items-center">
-                        <div>
-                          <div className="text-sm text-slate-400">Type</div>
-                          <Badge variant={spread.type === 'PUT' ? 'secondary' : 'outline'}>
-                            {spread.type} Spread
-                          </Badge>
-                        </div>
-                        <div>
-                          <div className="text-sm text-slate-400">Strikes</div>
-                          <div className="font-mono">{spread.shortStrike}/{spread.longStrike}</div>
-                        </div>
-                        <div>
-                          <div className="text-sm text-slate-400">Credit</div>
-                          <div className="text-green-400 font-bold">${spread.credit}</div>
-                        </div>
-                        <div>
-                          <div className="text-sm text-slate-400">Max Loss</div>
-                          <div className="text-red-400">${spread.maxLoss}</div>
-                        </div>
-                        <div>
-                          <div className="text-sm text-slate-400">Delta</div>
-                          <div className="font-mono">{spread.delta.toFixed(2)}</div>
-                        </div>
-                        <div>
-                          <div className="text-sm text-slate-400">PoP</div>
-                          <div className="text-blue-400">{(spread.probabilityProfit * 100).toFixed(1)}%</div>
-                        </div>
-                        <div>
-                          <div className="text-sm text-slate-400">Expected Value</div>
-                          <div className="text-purple-400">${spread.expectedValue}</div>
-                        </div>
-                        <div>
-                          <Button size="sm" className="bg-blue-600 hover:bg-blue-700">
-                            Execute
-                          </Button>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
+            <SpreadExecutor 
+              spreadCandidates={spreadCandidates} 
+              onTradeExecuted={addPerformancePoint}
+            />
           </TabsContent>
 
           {/* Positions Tab */}
           <TabsContent value="positions" className="space-y-6">
-            <Card className="bg-slate-800 border-slate-700">
-              <CardHeader>
-                <CardTitle>Current Positions</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {currentPositions.map((position) => (
-                    <div key={position.id} className="bg-slate-900 p-4 rounded-lg border border-slate-600">
-                      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-4 items-center">
-                        <div>
-                          <div className="text-sm text-slate-400">Symbol</div>
-                          <div className="font-bold">{position.symbol}</div>
-                        </div>
-                        <div>
-                          <div className="text-sm text-slate-400">Type</div>
-                          <Badge variant={position.type === 'PUT' ? 'secondary' : 'outline'}>
-                            {position.type}
-                          </Badge>
-                        </div>
-                        <div>
-                          <div className="text-sm text-slate-400">Strikes</div>
-                          <div className="font-mono">{position.shortStrike}/{position.longStrike}</div>
-                        </div>
-                        <div>
-                          <div className="text-sm text-slate-400">Quantity</div>
-                          <div>{position.quantity}</div>
-                        </div>
-                        <div>
-                          <div className="text-sm text-slate-400">Entry Credit</div>
-                          <div className="text-green-400">${position.entryCredit}</div>
-                        </div>
-                        <div>
-                          <div className="text-sm text-slate-400">Current Value</div>
-                          <div>${position.currentValue}</div>
-                        </div>
-                        <div>
-                          <div className="text-sm text-slate-400">P&L</div>
-                          <div className={position.pnl >= 0 ? 'text-green-400' : 'text-red-400'}>
-                            ${position.pnl}
-                          </div>
-                        </div>
-                        <div>
-                          <div className="text-sm text-slate-400">Days Held</div>
-                          <div>{position.daysHeld}</div>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
+            <TradeManager />
           </TabsContent>
 
           {/* Risk Tab */}
