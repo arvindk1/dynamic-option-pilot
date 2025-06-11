@@ -197,19 +197,19 @@ const TradingDashboard = () => {
             <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
               Options Trading System
             </h1>
-            <p className="text-slate-400 mt-2">Advanced algorithmic options trading platform</p>
+            <p className="text-slate-200 mt-2">Advanced algorithmic options trading platform</p>
           </div>
           <div className="flex items-center space-x-4">
             <Badge variant={config.paperTrading ? "secondary" : "destructive"} className="px-3 py-1">
               {config.paperTrading ? 'Paper Trading' : 'Live Trading'}
             </Badge>
             <Badge variant={isMarketOpen ? "secondary" : "outline"} 
-                   className={isMarketOpen ? "bg-green-900 text-green-300" : "bg-red-900 text-red-300"}>
+                   className={isMarketOpen ? "bg-green-800 text-green-100" : "bg-red-800 text-red-100"}>
               {isMarketOpen ? 'Market Open' : 'Market Closed'}
             </Badge>
             <div className="text-right">
               <div className="text-2xl font-bold text-green-400">${accountValue.toLocaleString()}</div>
-              <div className="text-sm text-slate-400">Account Value</div>
+              <div className="text-sm text-slate-200">Account Value</div>
             </div>
           </div>
         </div>
@@ -242,7 +242,7 @@ const TradingDashboard = () => {
                         <span className="font-medium text-sm">{plugin.name}</span>
                         <div className={`h-2 w-2 rounded-full ${plugin.status === 'active' ? 'bg-green-400' : 'bg-yellow-400'}`} />
                       </div>
-                      <div className="text-xs text-slate-400 mb-1">{plugin.plugin}</div>
+                      <div className="text-xs text-slate-200 mb-1">{plugin.plugin}</div>
                       <div className="text-xs text-slate-500">{plugin.lastUpdate}</div>
                     </div>
                   ))}
@@ -271,7 +271,7 @@ const TradingDashboard = () => {
                       <div className={`text-xl font-bold ${getBiasColor(marketBias)}`}>
                         {marketBias}
                       </div>
-                      <div className="text-sm text-slate-400">
+                      <div className="text-sm text-slate-200">
                         Confidence: {(confidence * 100).toFixed(1)}%
                       </div>
                     </div>
@@ -292,10 +292,10 @@ const TradingDashboard = () => {
                     <div className="text-2xl font-bold text-orange-400 mb-2">
                       {volatilityRegime.replace('_', ' ')}
                     </div>
-                    <div className="text-sm text-slate-400">
+                    <div className="text-sm text-slate-200">
                       IV Rank: 62nd percentile
                     </div>
-                    <div className="text-sm text-slate-400">
+                    <div className="text-sm text-slate-200">
                       VIX: 18.5
                     </div>
                   </div>
@@ -312,19 +312,19 @@ const TradingDashboard = () => {
                 <CardContent>
                   <div className="space-y-2">
                     <div className="flex justify-between">
-                      <span className="text-slate-400">Total P&L</span>
+                      <span className="text-slate-200">Total P&L</span>
                       <span className="text-green-400 font-bold">+$10,400</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-slate-400">Win Rate</span>
+                      <span className="text-slate-200">Win Rate</span>
                       <span className="text-blue-400">76%</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-slate-400">Sharpe Ratio</span>
+                      <span className="text-slate-200">Sharpe Ratio</span>
                       <span className="text-purple-400">1.8</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-slate-400">Max Drawdown</span>
+                      <span className="text-slate-200">Max Drawdown</span>
                       <span className="text-yellow-400">-3.2%</span>
                     </div>
                   </div>
@@ -343,8 +343,8 @@ const TradingDashboard = () => {
                 <CardContent>
                   <div className="text-center">
                     <div className="text-3xl font-bold text-green-400 mb-2">42.3</div>
-                    <Badge variant="secondary" className="bg-green-900 text-green-300">Bullish</Badge>
-                    <div className="text-sm text-slate-400 mt-2">Weight: 25%</div>
+                    <Badge variant="secondary" className="bg-green-800 text-green-100">Bullish</Badge>
+                    <div className="text-sm text-slate-200 mt-2">Weight: 25%</div>
                   </div>
                 </CardContent>
               </Card>
@@ -356,8 +356,8 @@ const TradingDashboard = () => {
                 <CardContent>
                   <div className="text-center">
                     <div className="text-3xl font-bold text-green-400 mb-2">+1</div>
-                    <Badge variant="secondary" className="bg-green-900 text-green-300">Bullish</Badge>
-                    <div className="text-sm text-slate-400 mt-2">Weight: 25%</div>
+                    <Badge variant="secondary" className="bg-green-800 text-green-100">Bullish</Badge>
+                    <div className="text-sm text-slate-200 mt-2">Weight: 25%</div>
                   </div>
                 </CardContent>
               </Card>
@@ -369,8 +369,8 @@ const TradingDashboard = () => {
                 <CardContent>
                   <div className="text-center">
                     <div className="text-3xl font-bold text-yellow-400 mb-2">0</div>
-                    <Badge variant="secondary" className="bg-yellow-900 text-yellow-300">Neutral</Badge>
-                    <div className="text-sm text-slate-400 mt-2">Weight: 25%</div>
+                    <Badge variant="secondary" className="bg-yellow-800 text-yellow-100">Neutral</Badge>
+                    <div className="text-sm text-slate-200 mt-2">Weight: 25%</div>
                   </div>
                 </CardContent>
               </Card>
@@ -382,8 +382,8 @@ const TradingDashboard = () => {
                 <CardContent>
                   <div className="text-center">
                     <div className="text-3xl font-bold text-green-400 mb-2">+1</div>
-                    <Badge variant="secondary" className="bg-green-900 text-green-300">Bullish</Badge>
-                    <div className="text-sm text-slate-400 mt-2">Weight: 25%</div>
+                    <Badge variant="secondary" className="bg-green-800 text-green-100">Bullish</Badge>
+                    <div className="text-sm text-slate-200 mt-2">Weight: 25%</div>
                   </div>
                 </CardContent>
               </Card>
@@ -396,16 +396,16 @@ const TradingDashboard = () => {
               <CardContent>
                 <div className="text-center mb-6">
                   <div className="text-4xl font-bold text-green-400 mb-2">BULLISH</div>
-                  <div className="text-lg text-slate-400">Confidence: 72%</div>
+                  <div className="text-lg text-slate-200">Confidence: 72%</div>
                   <Progress value={72} className="w-1/2 mx-auto mt-4" />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="bg-slate-900 p-4 rounded-lg">
-                    <div className="text-sm text-slate-400 mb-2">Weighted Score</div>
+                    <div className="text-sm text-slate-200 mb-2">Weighted Score</div>
                     <div className="text-2xl font-bold text-green-400">+0.75</div>
                   </div>
                   <div className="bg-slate-900 p-4 rounded-lg">
-                    <div className="text-sm text-slate-400 mb-2">Signal Strength</div>
+                    <div className="text-sm text-slate-200 mb-2">Signal Strength</div>
                     <div className="text-2xl font-bold text-blue-400">Strong</div>
                   </div>
                 </div>
@@ -440,7 +440,7 @@ const TradingDashboard = () => {
                   <div className="text-center">
                     <div className="text-3xl font-bold text-green-400 mb-2">2 / 5</div>
                     <Progress value={40} className="mb-2" />
-                    <div className="text-sm text-slate-400">Within limits</div>
+                    <div className="text-sm text-slate-200">Within limits</div>
                   </div>
                 </CardContent>
               </Card>
@@ -456,7 +456,7 @@ const TradingDashboard = () => {
                   <div className="text-center">
                     <div className="text-3xl font-bold text-yellow-400 mb-2">32%</div>
                     <Progress value={32} className="mb-2" />
-                    <div className="text-sm text-slate-400">Below 50% limit</div>
+                    <div className="text-sm text-slate-200">Below 50% limit</div>
                   </div>
                 </CardContent>
               </Card>
@@ -472,7 +472,7 @@ const TradingDashboard = () => {
                   <div className="text-center">
                     <div className="text-3xl font-bold text-blue-400 mb-2">3.2%</div>
                     <Progress value={21.3} className="mb-2" />
-                    <div className="text-sm text-slate-400">Below 15% limit</div>
+                    <div className="text-sm text-slate-200">Below 15% limit</div>
                   </div>
                 </CardContent>
               </Card>
@@ -486,19 +486,19 @@ const TradingDashboard = () => {
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                   <div className="text-center">
                     <div className="text-2xl font-bold text-green-400 mb-2">1.8</div>
-                    <div className="text-sm text-slate-400">Sharpe Ratio</div>
+                    <div className="text-sm text-slate-200">Sharpe Ratio</div>
                   </div>
                   <div className="text-center">
                     <div className="text-2xl font-bold text-blue-400 mb-2">0.25</div>
-                    <div className="text-sm text-slate-400">Kelly Fraction</div>
+                    <div className="text-sm text-slate-200">Kelly Fraction</div>
                   </div>
                   <div className="text-center">
                     <div className="text-2xl font-bold text-purple-400 mb-2">$21,600</div>
-                    <div className="text-sm text-slate-400">Available Buying Power</div>
+                    <div className="text-sm text-slate-200">Available Buying Power</div>
                   </div>
                   <div className="text-center">
                     <div className="text-2xl font-bold text-orange-400 mb-2">76%</div>
-                    <div className="text-sm text-slate-400">Win Rate</div>
+                    <div className="text-sm text-slate-200">Win Rate</div>
                   </div>
                 </div>
               </CardContent>
@@ -515,7 +515,7 @@ const TradingDashboard = () => {
                 <CardContent className="space-y-4">
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <Label htmlFor="symbol" className="text-slate-300">Symbol</Label>
+                      <Label htmlFor="symbol" className="text-slate-200">Symbol</Label>
                       <Input 
                         id="symbol"
                         value={config.symbol}
@@ -524,7 +524,7 @@ const TradingDashboard = () => {
                       />
                     </div>
                     <div>
-                      <Label htmlFor="broker" className="text-slate-300">Broker Plugin</Label>
+                      <Label htmlFor="broker" className="text-slate-200">Broker Plugin</Label>
                       <Input 
                         id="broker"
                         value={config.brokerPlugin}
@@ -535,19 +535,19 @@ const TradingDashboard = () => {
                   </div>
                   
                   <div className="flex items-center space-x-2">
-                    <Switch 
+                    <Switch
                       id="paper-trading"
                       checked={config.paperTrading}
                       onCheckedChange={(checked) => setConfig({...config, paperTrading: checked})}
                     />
-                    <Label htmlFor="paper-trading" className="text-slate-300">Paper Trading Mode</Label>
+                    <Label htmlFor="paper-trading" className="text-slate-200">Paper Trading Mode</Label>
                   </div>
 
                   <Separator className="bg-slate-600" />
 
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <Label htmlFor="dte-min" className="text-slate-300">DTE Min</Label>
+                      <Label htmlFor="dte-min" className="text-slate-200">DTE Min</Label>
                       <Input 
                         id="dte-min"
                         type="number"
@@ -557,7 +557,7 @@ const TradingDashboard = () => {
                       />
                     </div>
                     <div>
-                      <Label htmlFor="dte-max" className="text-slate-300">DTE Max</Label>
+                      <Label htmlFor="dte-max" className="text-slate-200">DTE Max</Label>
                       <Input 
                         id="dte-max"
                         type="number"
@@ -570,7 +570,7 @@ const TradingDashboard = () => {
 
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <Label htmlFor="delta-target" className="text-slate-300">Delta Target</Label>
+                      <Label htmlFor="delta-target" className="text-slate-200">Delta Target</Label>
                       <Input 
                         id="delta-target"
                         type="number"
@@ -581,7 +581,7 @@ const TradingDashboard = () => {
                       />
                     </div>
                     <div>
-                      <Label htmlFor="credit-threshold" className="text-slate-300">Credit Threshold</Label>
+                      <Label htmlFor="credit-threshold" className="text-slate-200">Credit Threshold</Label>
                       <Input 
                         id="credit-threshold"
                         type="number"
@@ -602,7 +602,7 @@ const TradingDashboard = () => {
                 <CardContent className="space-y-4">
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <Label htmlFor="max-positions" className="text-slate-300">Max Positions</Label>
+                      <Label htmlFor="max-positions" className="text-slate-200">Max Positions</Label>
                       <Input 
                         id="max-positions"
                         type="number"
@@ -612,7 +612,7 @@ const TradingDashboard = () => {
                       />
                     </div>
                     <div>
-                      <Label htmlFor="position-size" className="text-slate-300">Position Size %</Label>
+                      <Label htmlFor="position-size" className="text-slate-200">Position Size %</Label>
                       <Input 
                         id="position-size"
                         type="number"
@@ -626,7 +626,7 @@ const TradingDashboard = () => {
 
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <Label htmlFor="max-margin" className="text-slate-300">Max Margin Usage</Label>
+                      <Label htmlFor="max-margin" className="text-slate-200">Max Margin Usage</Label>
                       <Input 
                         id="max-margin"
                         type="number"
@@ -637,7 +637,7 @@ const TradingDashboard = () => {
                       />
                     </div>
                     <div>
-                      <Label htmlFor="max-drawdown" className="text-slate-300">Max Drawdown</Label>
+                      <Label htmlFor="max-drawdown" className="text-slate-200">Max Drawdown</Label>
                       <Input 
                         id="max-drawdown"
                         type="number"
@@ -650,7 +650,7 @@ const TradingDashboard = () => {
                   </div>
 
                   <div>
-                    <Label htmlFor="kelly-fraction" className="text-slate-300">Kelly Fraction</Label>
+                    <Label htmlFor="kelly-fraction" className="text-slate-200">Kelly Fraction</Label>
                     <Input 
                       id="kelly-fraction"
                       type="number"
