@@ -56,6 +56,21 @@ Use the included `backend/config.yaml` as a starting point and adjust values for
     - Data provider plugin
     - Trading parameters
     - Risk management rules
+    - Technical indicator parameters
+
+### Technical Indicators
+The `config.yaml` file includes defaults for several indicators used by the
+analysis plugins:
+
+| Setting | Description | Default |
+|---------|-------------|---------|
+| `rsi_period` | Lookback period for RSI calculations | 14 |
+| `rsi_overbought` | RSI level considered overbought | 70 |
+| `rsi_oversold` | RSI level considered oversold | 30 |
+| `ema_fast` | Fast EMA period for MACD | 9 |
+| `ema_slow` | Slow EMA period for MACD | 21 |
+| `iv_percentile_period` | Days used to compute IV percentile | 252 |
+| `high_vol_threshold` | Percentile marking high volatility | 0.75 |
 
 ## Testing
 ```bash
