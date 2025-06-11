@@ -19,6 +19,11 @@ async def market_open_tasks():
         logger.info(f"{settings.symbol} open price: {md.price}")
 
 
+def market_open_tasks():
+    """Placeholder job for tasks that run at market open."""
+    logger.info("Running market open routine")
+
+
 def init_scheduler():
     """Configure scheduler jobs."""
     # Market open at 9:30am US/Eastern Monday-Friday
