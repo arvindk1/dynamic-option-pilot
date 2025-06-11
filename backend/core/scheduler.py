@@ -17,6 +17,8 @@ async def market_open_tasks():
         await data_plugin.initialize()
         md = await data_plugin.get_market_data(settings.symbol)
         logger.info(f"{settings.symbol} open price: {md.price}")
+
+
 def market_open_tasks():
     """Placeholder job for tasks that run at market open."""
     logger.info("Running market open routine")
