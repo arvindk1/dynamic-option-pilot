@@ -1,27 +1,34 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from typing import Dict, Any
 from datetime import datetime, timedelta
 import random
+from sqlalchemy.orm import Session
+
+from models.database import get_db, PerformanceMetric
 
 router = APIRouter()
 
+
 @router.get("/metrics")
-async def get_metrics() -> Dict[str, Any]:
-    """Get dashboard metrics"""
-    # TODO: Replace with real data from database
+def get_metrics(db: Session = Depends(get_db)) -> Dict[str, Any]:
+    """Get dashboard metrics from the database."""
+    metric = (
+        db.query(PerformanceMetric)
+        .order_by(PerformanceMetric.date.desc())
+        .first()
+    )
+
+    if not metric:
+        raise HTTPException(status_code=404, detail="No metrics found")
+
     return {
-        "account_balance": 125430.50,
-        "total_pnl": 12850.75,
-        "pnl_percentage": 11.4,
-        "win_rate": 78.5,
-        "total_trades": 54,
-        "winning_trades": 42,
-        "sharpe_ratio": 2.34,
-        "max_drawdown": 4.6,
-        "positions_open": 3,
-        "margin_used": 17500.00,
-        "buying_power": 107930.50,
-        "last_updated": datetime.utcnow().isoformat()
+        "total_pnl": metric.total_pnl,
+        "win_rate": metric.win_rate,
+        "sharpe_ratio": metric.sharpe_ratio,
+        "max_drawdown": metric.max_drawdown,
+        "total_trades": metric.total_trades,
+        "winning_trades": metric.winning_trades,
+        "last_updated": metric.date.isoformat(),
     }
 
 @router.get("/signals")

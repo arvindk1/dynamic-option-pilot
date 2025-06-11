@@ -1,4 +1,21 @@
+import os
+from datetime import datetime
+
 import pytest
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+
+from models import database
+
+# Use an in-memory SQLite database for testing
+test_engine = create_engine(
+    "sqlite:///./test.db",
+    connect_args={"check_same_thread": False},
+)
+database.engine = test_engine
+database.SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=test_engine)
+database.Base.metadata.create_all(bind=test_engine)
+
 from fastapi.testclient import TestClient
 from api.main import app
 
@@ -15,12 +32,28 @@ def test_health_check():
     assert response.json()["status"] == "healthy"
 
 def test_get_metrics():
+    # Insert a sample metric
+    session = database.SessionLocal()
+    session.add(
+        database.PerformanceMetric(
+            date=datetime.utcnow(),
+            total_pnl=1000.0,
+            win_rate=75.0,
+            sharpe_ratio=1.5,
+            max_drawdown=5.0,
+            total_trades=10,
+            winning_trades=7,
+        )
+    )
+    session.commit()
+    session.close()
+
     response = client.get("/api/dashboard/metrics")
     assert response.status_code == 200
     data = response.json()
-    assert "account_balance" in data
-    assert "total_pnl" in data
-    assert "win_rate" in data
+    assert data["total_pnl"] == 1000.0
+    assert data["win_rate"] == 75.0
+    assert "sharpe_ratio" in data
 
 def test_get_positions():
     response = client.get("/api/positions/")
