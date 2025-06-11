@@ -1,6 +1,8 @@
 from pydantic_settings import BaseSettings
 from typing import Optional
 from functools import lru_cache
+import yaml
+import os
 
 class Settings(BaseSettings):
     # Application
@@ -53,7 +55,13 @@ class Settings(BaseSettings):
         case_sensitive = False
 
 @lru_cache()
-def get_settings():
-    return Settings()
+def get_settings() -> Settings:
+    """Load settings from environment variables and optional YAML file."""
+    config_file = os.getenv("CONFIG_FILE", os.path.join(os.path.dirname(__file__), "..", "config.yaml"))
+    data = {}
+    if os.path.exists(config_file):
+        with open(config_file, "r") as f:
+            data = yaml.safe_load(f) or {}
+    return Settings(**data)
 
 settings = get_settings()
