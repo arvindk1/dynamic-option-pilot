@@ -17,6 +17,7 @@ class PluginOrchestrator:
         plugin_map = {
             "data": f"plugins.data.{settings.data_plugin}",
             "signals": "plugins.analysis.composite_signals",
+            "technical": "plugins.analysis.technical",
             "selector": "plugins.trading.spread_selector",
             "risk": "plugins.risk.portfolio_manager",
             "executor": f"plugins.execution.{settings.broker_plugin}"
