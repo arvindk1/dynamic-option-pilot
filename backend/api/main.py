@@ -6,6 +6,7 @@ import uvicorn
 import logging
 
 from core.config import settings
+from core.scheduler import scheduler, init_scheduler
 from api.routes import dashboard, positions, trading, analytics, market_data
 from core.database import init_db
 
@@ -18,8 +19,11 @@ async def lifespan(app: FastAPI):
     # Startup
     logger.info(f"Starting {settings.app_name}...")
     await init_db()
+    init_scheduler()
+    scheduler.start()
     yield
     # Shutdown
+    scheduler.shutdown()
     logger.info("Shutting down...")
 
 app = FastAPI(
