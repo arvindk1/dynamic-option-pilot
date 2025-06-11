@@ -1,0 +1,44 @@
+app_name: Dynamic Option Pilot
+app_env: development
+debug: true
+secret_key: your-secret-key-here
+
+# Database
+database_url: postgresql://user:pass@localhost:5432/option_pilot
+
+# Redis
+redis_url: redis://localhost:6379
+
+# Broker Configuration
+broker_plugin: td_ameritrade
+data_plugin: yfinance
+paper_trading: true
+broker_api_key: your-broker-api-key
+broker_api_secret: your-broker-api-secret
+broker_account_id: your-account-id
+
+# Strategy Parameters
+symbol: SPX
+dte_min: 30
+dte_max: 45
+delta_target: 0.10
+credit_threshold: 0.50
+max_spread_width: 50
+
+# Risk Management
+max_positions: 5
+position_size_pct: 0.02
+max_margin_usage: 0.50
+max_drawdown: 0.15
+kelly_fraction: 0.25
+
+# Technical Indicators
+rsi_period: 14
+rsi_overbought: 70
+rsi_oversold: 30
+ema_fast: 9
+ema_slow: 21
+
+# Volatility Settings
+iv_percentile_period: 252
+high_vol_threshold: 0.75

@@ -26,3 +26,10 @@ def test_get_positions():
     response = client.get("/api/positions/")
     assert response.status_code == 200
     assert isinstance(response.json(), list)
+
+
+def test_get_quote():
+    response = client.get("/api/market/quote/SPX")
+    assert response.status_code == 200
+    data = response.json()
+    assert "price" in data
