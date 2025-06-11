@@ -24,6 +24,12 @@ pip install -r requirements.txt
 # Copy environment variables
 cp .env.example .env
 
+### Database Setup
+The dashboard metrics endpoint reads from the configured database. Ensure the
+database specified by `DATABASE_URL` is running before starting the server.
+Tables are created automatically on startup. For local testing you can set
+`DATABASE_URL=sqlite:///./test.db` to use SQLite.
+
 # Start the server
 ./scripts/start.sh
 # Or directly: uvicorn api.main:app --reload
