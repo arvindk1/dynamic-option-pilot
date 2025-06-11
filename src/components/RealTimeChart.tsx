@@ -31,7 +31,7 @@ export const RealTimeChart: React.FC<RealTimeChartProps> = ({ data, marketData, 
                 <div className="text-2xl font-bold text-white">
                   ${marketData.price.toFixed(2)}
                 </div>
-                <div className="text-sm text-slate-400">SPX Price</div>
+                <div className="text-sm text-slate-200">SPX Price</div>
               </div>
               <Activity className="h-5 w-5 text-blue-400" />
             </div>
@@ -45,7 +45,7 @@ export const RealTimeChart: React.FC<RealTimeChartProps> = ({ data, marketData, 
                 <div className={`text-2xl font-bold ${isPositive ? 'text-green-400' : 'text-red-400'}`}>
                   {isPositive ? '+' : ''}{marketData.change.toFixed(2)}
                 </div>
-                <div className="text-sm text-slate-400">Change</div>
+                <div className="text-sm text-slate-200">Change</div>
               </div>
               {isPositive ? (
                 <TrendingUp className="h-5 w-5 text-green-400" />
@@ -63,7 +63,7 @@ export const RealTimeChart: React.FC<RealTimeChartProps> = ({ data, marketData, 
                 <div className={`text-2xl font-bold ${isPositive ? 'text-green-400' : 'text-red-400'}`}>
                   {isPositive ? '+' : ''}{(marketData.changePercent * 100).toFixed(2)}%
                 </div>
-                <div className="text-sm text-slate-400">Change %</div>
+                <div className="text-sm text-slate-200">Change %</div>
               </div>
             </div>
           </CardContent>
@@ -76,14 +76,14 @@ export const RealTimeChart: React.FC<RealTimeChartProps> = ({ data, marketData, 
                 <div className="text-2xl font-bold text-white">
                   {marketData.volume.toLocaleString()}
                 </div>
-                <div className="text-sm text-slate-400">Volume</div>
+                <div className="text-sm text-slate-200">Volume</div>
               </div>
               <div className="flex flex-col items-end space-y-1">
-                <Badge variant={isMarketOpen ? "secondary" : "outline"} 
-                       className={isMarketOpen ? "bg-green-900 text-green-300" : "bg-red-900 text-red-300"}>
+                <Badge variant={isMarketOpen ? "secondary" : "outline"}
+                       className={isMarketOpen ? "bg-green-800 text-green-100" : "bg-red-800 text-red-100"}>
                   {isMarketOpen ? 'Market Open' : 'Market Closed'}
                 </Badge>
-                <div className="flex items-center text-xs text-slate-400">
+                <div className="flex items-center text-xs text-slate-200">
                   <Clock className="h-3 w-3 mr-1" />
                   {marketData.timestamp.toLocaleTimeString()}
                 </div>
@@ -98,7 +98,7 @@ export const RealTimeChart: React.FC<RealTimeChartProps> = ({ data, marketData, 
         <CardHeader>
           <CardTitle className="flex items-center justify-between">
             <span>Real-Time Performance</span>
-            <Badge variant="secondary" className="bg-blue-900 text-blue-300">
+            <Badge variant="secondary" className="bg-blue-800 text-blue-100">
               Yahoo Finance API
             </Badge>
           </CardTitle>

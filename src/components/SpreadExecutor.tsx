@@ -61,7 +61,7 @@ export const SpreadExecutor: React.FC<SpreadExecutorProps> = ({
         <CardTitle className="flex items-center space-x-2">
           <Zap className="h-5 w-5 text-yellow-400" />
           <span>Spread Candidates - Paper Trading</span>
-          <Badge variant="secondary" className="bg-green-900 text-green-300">
+          <Badge variant="secondary" className="bg-green-800 text-green-100">
             Live Execution
           </Badge>
         </CardTitle>
@@ -72,33 +72,33 @@ export const SpreadExecutor: React.FC<SpreadExecutorProps> = ({
             <div key={spread.id} className="bg-slate-900 p-4 rounded-lg border border-slate-600">
               <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-4 items-center">
                 <div>
-                  <div className="text-sm text-slate-400">Type</div>
+                  <div className="text-sm text-slate-200">Type</div>
                   <Badge variant={spread.type === 'PUT' ? 'secondary' : 'outline'}>
                     {spread.type} Spread
                   </Badge>
                 </div>
                 <div>
-                  <div className="text-sm text-slate-400">Strikes</div>
+                  <div className="text-sm text-slate-200">Strikes</div>
                   <div className="font-mono">{spread.shortStrike}/{spread.longStrike}</div>
                 </div>
                 <div>
-                  <div className="text-sm text-slate-400">Credit</div>
+                  <div className="text-sm text-slate-200">Credit</div>
                   <div className="text-green-400 font-bold">${spread.credit}</div>
                 </div>
                 <div>
-                  <div className="text-sm text-slate-400">Max Loss</div>
+                  <div className="text-sm text-slate-200">Max Loss</div>
                   <div className="text-red-400">${spread.maxLoss}</div>
                 </div>
                 <div>
-                  <div className="text-sm text-slate-400">Delta</div>
+                  <div className="text-sm text-slate-200">Delta</div>
                   <div className="font-mono">{spread.delta.toFixed(2)}</div>
                 </div>
                 <div>
-                  <div className="text-sm text-slate-400">PoP</div>
+                  <div className="text-sm text-slate-200">PoP</div>
                   <div className="text-blue-400">{(spread.probabilityProfit * 100).toFixed(1)}%</div>
                 </div>
                 <div>
-                  <div className="text-sm text-slate-400">Expected Value</div>
+                  <div className="text-sm text-slate-200">Expected Value</div>
                   <div className="text-purple-400">${spread.expectedValue}</div>
                 </div>
                 <div>

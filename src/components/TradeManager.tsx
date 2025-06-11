@@ -60,10 +60,10 @@ export const TradeManager: React.FC = () => {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'OPEN': return 'bg-blue-900 text-blue-300';
-      case 'CLOSED': return 'bg-green-900 text-green-300';
-      case 'EXPIRED': return 'bg-red-900 text-red-300';
-      default: return 'bg-slate-900 text-slate-300';
+      case 'OPEN': return 'bg-blue-800 text-blue-100';
+      case 'CLOSED': return 'bg-green-800 text-green-100';
+      case 'EXPIRED': return 'bg-red-800 text-red-100';
+      default: return 'bg-slate-800 text-slate-100';
     }
   };
 
@@ -90,7 +90,7 @@ export const TradeManager: React.FC = () => {
         <CardTitle className="flex items-center space-x-2">
           <DollarSign className="h-5 w-5 text-green-400" />
           <span>Trade Management</span>
-          <Badge variant="secondary" className="bg-blue-900 text-blue-300">
+          <Badge variant="secondary" className="bg-blue-800 text-blue-100">
             {trades.filter(t => t.status === 'OPEN').length} Open
           </Badge>
         </CardTitle>
@@ -98,7 +98,7 @@ export const TradeManager: React.FC = () => {
       <CardContent>
         <div className="space-y-4">
           {trades.length === 0 ? (
-            <div className="text-center py-8 text-slate-400">
+            <div className="text-center py-8 text-slate-200">
               No trades executed yet. Execute some spread candidates to see them here.
             </div>
           ) : (
@@ -106,35 +106,35 @@ export const TradeManager: React.FC = () => {
               <div key={trade.id} className="bg-slate-900 p-4 rounded-lg border border-slate-600">
                 <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-4 items-center">
                   <div>
-                    <div className="text-sm text-slate-400">Symbol</div>
+                    <div className="text-sm text-slate-200">Symbol</div>
                     <div className="font-bold">{trade.symbol}</div>
                   </div>
                   <div>
-                    <div className="text-sm text-slate-400">Type</div>
+                    <div className="text-sm text-slate-200">Type</div>
                     <Badge variant={trade.type === 'PUT' ? 'secondary' : 'outline'}>
                       {trade.type}
                     </Badge>
                   </div>
                   <div>
-                    <div className="text-sm text-slate-400">Strikes</div>
+                    <div className="text-sm text-slate-200">Strikes</div>
                     <div className="font-mono">{trade.shortStrike}/{trade.longStrike}</div>
                   </div>
                   <div>
-                    <div className="text-sm text-slate-400">Quantity</div>
+                    <div className="text-sm text-slate-200">Quantity</div>
                     <div>{trade.quantity}</div>
                   </div>
                   <div>
-                    <div className="text-sm text-slate-400">Entry Credit</div>
+                    <div className="text-sm text-slate-200">Entry Credit</div>
                     <div className="text-green-400">${trade.entryCredit}</div>
                   </div>
                   <div>
-                    <div className="text-sm text-slate-400">P&L</div>
+                    <div className="text-sm text-slate-200">P&L</div>
                     <div className={trade.pnl && trade.pnl >= 0 ? 'text-green-400' : 'text-red-400'}>
                       {trade.pnl ? `$${trade.pnl.toFixed(0)}` : '--'}
                     </div>
                   </div>
                   <div>
-                    <div className="text-sm text-slate-400">Status</div>
+                    <div className="text-sm text-slate-200">Status</div>
                     <Badge variant="secondary" className={getStatusColor(trade.status)}>
                       <div className="flex items-center space-x-1">
                         {getStatusIcon(trade.status)}
@@ -187,7 +187,7 @@ export const TradeManager: React.FC = () => {
                 </div>
                 
                 {/* Additional trade info */}
-                <div className="mt-3 pt-3 border-t border-slate-600 text-sm text-slate-400">
+                <div className="mt-3 pt-3 border-t border-slate-600 text-sm text-slate-200">
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                     <div>Entry: {trade.entryDate.toLocaleDateString()}</div>
                     <div>Days Held: {calculateDaysHeld(trade.entryDate)}</div>
