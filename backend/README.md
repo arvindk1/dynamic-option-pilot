@@ -46,11 +46,16 @@ backend/
 ```
 
 ## Configuration
-Edit `.env` file to configure:
-- Database connection
-- Broker API credentials
-- Trading parameters
-- Risk management rules
+Configuration values can be supplied either via environment variables or a
+`config.yaml` file. The provided `.env` file is still respected, but any
+settings found in `config.yaml` will override the defaults.
+
+Use the included `backend/config.yaml` as a starting point and adjust values for:
+    - Database connection
+    - Broker API credentials
+    - Data provider plugin
+    - Trading parameters
+    - Risk management rules
 
 ## Testing
 ```bash

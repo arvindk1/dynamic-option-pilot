@@ -15,7 +15,7 @@ class PluginOrchestrator:
     def _load_plugins(self):
         """Load configured plugins"""
         plugin_map = {
-            "data": f"plugins.data.{settings.broker_plugin}",
+            "data": f"plugins.data.{settings.data_plugin}",
             "signals": "plugins.analysis.composite_signals",
             "selector": "plugins.trading.spread_selector",
             "risk": "plugins.risk.portfolio_manager",
