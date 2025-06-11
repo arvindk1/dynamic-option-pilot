@@ -1,12 +1,22 @@
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.cron import CronTrigger
 import logging
+from core.orchestrator import orchestrator
+from core.config import settings
 
 logger = logging.getLogger(__name__)
 
 scheduler = AsyncIOScheduler()
 
 
+async def market_open_tasks():
+    """Fetch opening market data."""
+    logger.info("Running market open routine")
+    data_plugin = orchestrator.get_plugin("data")
+    if data_plugin:
+        await data_plugin.initialize()
+        md = await data_plugin.get_market_data(settings.symbol)
+        logger.info(f"{settings.symbol} open price: {md.price}")
 def market_open_tasks():
     """Placeholder job for tasks that run at market open."""
     logger.info("Running market open routine")

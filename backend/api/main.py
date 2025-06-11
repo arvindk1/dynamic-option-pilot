@@ -7,6 +7,7 @@ import logging
 
 from core.config import settings
 from core.scheduler import scheduler, init_scheduler
+from core.orchestrator import orchestrator
 from api.routes import dashboard, positions, trading, analytics, market_data
 from core.database import init_db
 
@@ -19,6 +20,7 @@ async def lifespan(app: FastAPI):
     # Startup
     logger.info(f"Starting {settings.app_name}...")
     await init_db()
+    await orchestrator.initialize_all()
     init_scheduler()
     scheduler.start()
     yield

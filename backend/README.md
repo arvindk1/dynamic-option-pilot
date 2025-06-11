@@ -53,6 +53,7 @@ settings found in `config.yaml` will override the defaults.
 Use the included `backend/config.yaml` as a starting point and adjust values for:
     - Database connection
     - Broker API credentials
+    - Data provider plugin
     - Trading parameters
     - Risk management rules
 

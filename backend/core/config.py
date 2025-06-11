@@ -19,6 +19,7 @@ class Settings(BaseSettings):
     
     # Broker Configuration
     broker_plugin: str = "td_ameritrade"
+    data_plugin: str = "yfinance"
     paper_trading: bool = True
     broker_api_key: str
     broker_api_secret: str
