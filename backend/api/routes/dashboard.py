@@ -3,14 +3,24 @@ from typing import Dict, Any
 from datetime import datetime, timedelta
 import random
 from sqlalchemy.orm import Session
+from pydantic import BaseModel
 
 from models.database import get_db, PerformanceMetric
 
 router = APIRouter()
 
 
+class MetricResponse(BaseModel):
+    total_pnl: float
+    win_rate: float
+    sharpe_ratio: float
+    max_drawdown: float
+    total_trades: int
+    winning_trades: int
+    last_updated: datetime
+
 @router.get("/metrics")
-def get_metrics(db: Session = Depends(get_db)) -> Dict[str, Any]:
+async def get_metrics(db: Session = Depends(get_db)) -> MetricResponse:
     """Get dashboard metrics from the database."""
     metric = (
         db.query(PerformanceMetric)
@@ -21,15 +31,15 @@ def get_metrics(db: Session = Depends(get_db)) -> Dict[str, Any]:
     if not metric:
         raise HTTPException(status_code=404, detail="No metrics found")
 
-    return {
-        "total_pnl": metric.total_pnl,
-        "win_rate": metric.win_rate,
-        "sharpe_ratio": metric.sharpe_ratio,
-        "max_drawdown": metric.max_drawdown,
-        "total_trades": metric.total_trades,
-        "winning_trades": metric.winning_trades,
-        "last_updated": metric.date.isoformat(),
-    }
+    return MetricResponse(
+        total_pnl=metric.total_pnl,
+        win_rate=metric.win_rate,
+        sharpe_ratio=metric.sharpe_ratio,
+        max_drawdown=metric.max_drawdown,
+        total_trades=metric.total_trades,
+        winning_trades=metric.winning_trades,
+        last_updated=metric.date,
+    )
 
 @router.get("/signals")
 async def get_market_signals() -> Dict[str, Any]:

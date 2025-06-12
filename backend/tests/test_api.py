@@ -1,16 +1,18 @@
 import os
-from datetime import datetime
+from datetime import datetime, timezone
 
 import pytest
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy.pool import StaticPool
 
 from models import database
 
 # Use an in-memory SQLite database for testing
 test_engine = create_engine(
-    "sqlite:///./test.db",
+    "sqlite:///:memory:",
     connect_args={"check_same_thread": False},
+    poolclass=StaticPool,
 )
 database.engine = test_engine
 database.SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=test_engine)
@@ -31,12 +33,16 @@ def test_health_check():
     assert response.status_code == 200
     assert response.json()["status"] == "healthy"
 
+def test_get_metrics_no_data():
+    response = client.get("/api/dashboard/metrics")
+    assert response.status_code == 404
+
 def test_get_metrics():
     # Insert a sample metric
     session = database.SessionLocal()
     session.add(
         database.PerformanceMetric(
-            date=datetime.utcnow(),
+            date=datetime.now(timezone.utc),
             total_pnl=1000.0,
             win_rate=75.0,
             sharpe_ratio=1.5,
